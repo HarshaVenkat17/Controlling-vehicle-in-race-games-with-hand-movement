@@ -2,53 +2,40 @@
 import cv2
 import tkinter as tk
 from PIL import Image,ImageTk
-
+import race
 class Gaming(object):
     def __init__(self, master, **kwargs):
         l1=tk.Label(text="Game Controls",font=("Helvetica",60,"bold"),activeforeground="white",fg="white",bg="black")
         l1.place(x=415,y=50)
-        l2=tk.Label(text="Select to enable",font=("Helvetica",22,"bold"),activeforeground="white",fg="white",bg="black")
-        l2.place(x=110,y=150)
-        var1=tk.IntVar()
-        var2=tk.IntVar()
-        var3=tk.IntVar()
-        var4=tk.IntVar()
-        var5=tk.IntVar()
-        var6=tk.IntVar()
-        C1 = tk.Checkbutton(text = "Accelerate", variable = var1,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C1.place(x=110,y=200)
-        C2 = tk.Checkbutton(text = "Back", variable = var2,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C2.place(x=110,y=260)
-        C3 = tk.Checkbutton(text = "Left", variable = var3,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C3.place(x=110,y=320)
-        C4 = tk.Checkbutton(text = "Right", variable = var4,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C4.place(x=110,y=380)
-        C5 = tk.Checkbutton(text = "Brake", variable = var5,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C5.place(x=110,y=440)
-        C6 = tk.Checkbutton(text = "Nitro", variable = var6,font=("Helvetica",22,"bold"),activeforeground="black",
-                            activebackground="white",fg="black",bg="white",onvalue = 1, offvalue = 0, height=1,width = 30)
-        C6.place(x=110,y=500)
-    
+        
+        textArr=["Accelerate","Back","Left","Right","Brake","Nitro"]
+        op1=tk.Label(text="Accelerate",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op1.place(x=110,y=200)
+        op2=tk.Label(text="Back",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op2.place(x=110,y=260)
+        op3=tk.Label(text="Left",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op3.place(x=110,y=320)
+        op4=tk.Label(text="Right",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op4.place(x=110,y=380)
+        op5=tk.Label(text="Brake",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op5.place(x=110,y=440)
+        op6=tk.Label(text="Nitro",font=("Helvetica",22,"bold"),width=11,activeforeground="black",activebackground="white",bg="white",fg="black")
+        op6.place(x=110,y=500)
 
-        choices = ['select','a','s','d','w','left','down','right','up','space','x']
-        #tkvar.set('Select a control') # set the default option
+        choices = ['a','s','d','w','left','down','right','up','space','x']
+        
         Var1 = tk.StringVar()
         Var2 = tk.StringVar()
         Var3 = tk.StringVar()
         Var4 = tk.StringVar()
         Var5 = tk.StringVar()
         Var6 = tk.StringVar()
-        Var1.set("Select a control")
-        Var2.set("Select a control")
-        Var3.set("Select a control")
-        Var4.set("Select a control")
-        Var5.set("Select a control")
-        Var6.set("Select a control")
+        Var1.set("select")
+        Var2.set("select")
+        Var3.set("select")
+        Var4.set("select")
+        Var5.set("select")
+        Var6.set("select")
         # Create a option menu
         option1 = tk.OptionMenu(root,Var1,*choices)
         option1.place(x=800,y=200)     
@@ -64,14 +51,20 @@ class Gaming(object):
         option6.place(x=800,y=500)  
                    
         btn4 = tk.Button(text="Submit", bd=8,activeforeground="white",activebackground="black",
-                         fg="white",bg="black",width=12, height=1,font=("verdana",15,'bold'), command=lambda:self.perform(var1,var2,var3,var4,var5,var6,Var1,Var2,Var3,Var4,Var5,Var6))
+                         fg="white",bg="black",width=12, height=1,font=("verdana",15,'bold'),
+                         command=lambda:self.perform("Accelerate","Back","Left","Right","Brake","Nitro",Var1,Var2,Var3,Var4,Var5,Var6))
         btn4.place(x=1110,y=620)
         
     def perform(self,*var):
+        instr=[]
+        control=[]
         for i in range(6):
-            ch=var[i].get()
-            if ch:
-                print(ch,var[i+6].get())
+            cnt=var[i+6].get()
+            if cnt!="select":
+                instr.append(var[i])
+                control.append(cnt)
+        race.call(instr,control)
+        
 root=tk.Tk()
 root.title("Game Controls")
 pad=10
